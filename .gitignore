@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Env / secrets
+.env
+.env.local
+
+# Logs
+*.log
+
+# OS / editor
+.DS_Store
+.vscode/
+
+# Future frontend
+node_modules/
+dist/
+build/
