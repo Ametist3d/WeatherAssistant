@@ -1,0 +1,37 @@
+import os
+from groq import Groq
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_KEY = os.getenv("GROQ_API_KEY")
+MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
+
+
+def get_recommendation(weather: dict) -> str:
+    if not API_KEY:
+        raise RuntimeError("Missing GROQ_API_KEY in .env")
+
+    client = Groq(api_key=API_KEY)
+
+    prompt = f"""
+You are a personal weather assistant.
+
+Based on this weather data, give simple recommendations:
+- what to wear
+- what activities are good
+- what to be careful about
+
+Weather data:
+{weather}
+"""
+
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.5,
+    )
+
+    return response.choices[0].message.content
