@@ -29,6 +29,7 @@ app.add_middleware(
 class WeatherRequest(BaseModel):
     city: str
     date: str
+    note: str = ""
 
 
 @app.get("/health")
@@ -47,7 +48,7 @@ def cities(q: str):
 @app.post("/api/recommendation")
 def recommendation(request: WeatherRequest):
     weather = get_weather(request.city, request.date)
-    recommendation_text = get_recommendation(weather)
+    recommendation_text = get_recommendation(weather, request.note)
 
     return {
         "weather": weather,

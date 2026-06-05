@@ -109,3 +109,30 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.note-field {
+  grid-column: 1 / -1;
+}
+
+.optional {
+  color: #6b7280;
+  font-weight: 400;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 8px;
+  background: #030712;
+  border: 1px solid #374151;
+  color: #f9fafb;
+  padding: 12px 14px;
+  border-radius: 10px;
+  outline: none;
+  min-height: 72px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+textarea:focus {
+  border-color: #6b7280;
+}

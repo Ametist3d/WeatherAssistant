@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+// const API_URL = import.meta.env.VITE_API_URL || "";
 // const API_URL = "http://localhost:8000";
 
 type WeatherData = {
@@ -31,6 +31,7 @@ type CitySuggestion = {
 function App() {
   const [city, setCity] = useState("Zagreb");
   const [date, setDate] = useState("");
+  const [note, setNote] = useState("");
   const [result, setResult] = useState<ApiResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,7 @@ function App() {
 
     try {
       const response = await fetch(
-        `${API_URL}/api/cities?q=${encodeURIComponent(value)}`
+        `/api/cities?q=${encodeURIComponent(value)}`
       );
 
       if (!response.ok) {
@@ -68,7 +69,7 @@ function App() {
     setResult(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/recommendation`, {
+      const response = await fetch(`/api/recommendation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,6 +77,7 @@ function App() {
         body: JSON.stringify({
           city,
           date,
+          note,
         }),
       });
 
@@ -137,6 +139,15 @@ function App() {
             <button disabled={loading || !city || !date}>
               {loading ? "Thinking..." : "Get recommendation"}
             </button>
+
+            <label className="note-field">
+              Custom note <span className="optional">(optional)</span>
+              <textarea
+                value={note}
+                onChange={(event) => setNote(event.target.value)}
+                placeholder="Example: I'm going hiking, I have a business meeting, I will walk a lot..."
+              />
+            </label>
           </form>
 
           {error && <div className="error">{error}</div>}
