@@ -7,20 +7,6 @@ Write-Host "Personal Weather Assistant - Windows Setup"
 Write-Host "------------------------------------------"
 Write-Host ""
 
-function Convert-SecureStringToPlainText {
-    param (
-        [System.Security.SecureString]$SecureString
-    )
-
-    $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString)
-
-    try {
-        return [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($BSTR)
-    }
-    finally {
-        [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
-    }
-}
 
 function Ask-Env {
     if (Test-Path ".env") {
@@ -39,10 +25,9 @@ function Ask-Env {
     Write-Host "API key setup"
     Write-Host "-------------"
 
-    $OpenWeatherApiKey = Read-Host "OpenWeather API key"
+    $OpenWeatherApiKey = (Read-Host "OpenWeather API key").Trim()
 
-    $GroqSecure = Read-Host "Groq API key" -AsSecureString
-    $GroqApiKey = Convert-SecureStringToPlainText $GroqSecure
+    $GroqApiKey = (Read-Host "Groq API key").Trim()
 
     if ([string]::IsNullOrWhiteSpace($OpenWeatherApiKey)) {
         Write-Host "OpenWeather API key cannot be empty."
@@ -97,7 +82,8 @@ APP_PORT=$AppPort
 VITE_API_URL=$ViteApiUrl
 "@
 
-    Set-Content -Path ".env" -Value $EnvContent -Encoding UTF8
+    $Utf8NoBom = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText((Join-Path (Get-Location) ".env"), $EnvContent, $Utf8NoBom)
 
     Write-Host ""
     Write-Host ".env created."

@@ -1,8 +1,10 @@
 import os
 from groq import Groq
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+env_path = Path(__file__).resolve().parents[1] / ".env"
+load_dotenv(env_path)
 
 API_KEY = os.getenv("GROQ_API_KEY")
 MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")

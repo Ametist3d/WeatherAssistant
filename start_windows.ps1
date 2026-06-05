@@ -63,7 +63,7 @@ if ($Mode -eq "manual") {
         -FilePath $PythonExe `
         -ArgumentList "-m uvicorn backend.api:app --host 0.0.0.0 --port $AppPort" `
         -RedirectStandardOutput "app.log" `
-        -RedirectStandardError "app.log" `
+        -RedirectStandardError "app_error.log" `
         -WindowStyle Hidden `
         -PassThru
 
@@ -72,7 +72,9 @@ if ($Mode -eq "manual") {
     Write-Host "App started."
     Write-Host "PID: $($Process.Id)"
     Write-Host "URL: http://localhost:$AppPort"
-    Write-Host "Logs: Get-Content app.log -Wait"
+    Write-Host "Logs:"
+    Write-Host "  Get-Content app.log -Wait"
+    Write-Host "  Get-Content app_error.log -Wait"
     exit 0
 }
 
