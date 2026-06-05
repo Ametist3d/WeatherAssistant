@@ -17,7 +17,13 @@ __pycache__/
 .DS_Store
 .vscode/
 
-# Future frontend
+# FE/BE build artifacts
+.deployment_mode
+app.pid
+app.log
 node_modules/
 dist/
 build/
+frontend/.env.local
+frontend/.env.production
+backend/static/

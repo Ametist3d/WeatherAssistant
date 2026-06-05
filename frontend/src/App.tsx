@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+// const API_URL = "http://localhost:8000";
 
 type WeatherData = {
   city: string;
@@ -16,6 +17,16 @@ type ApiResponse = {
   recommendation: string;
 };
 
+type CitySuggestion = {
+  name: string;
+  country: string;
+  state?: string;
+  lat: number;
+  lon: number;
+  label: string;
+};
+
+
 
 function App() {
   const [city, setCity] = useState("Zagreb");
@@ -23,6 +34,31 @@ function App() {
   const [result, setResult] = useState<ApiResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
+
+  async function handleCityChange(value: string) {
+    setCity(value);
+
+    if (value.length < 2) {
+      setCitySuggestions([]);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API_URL}/api/cities?q=${encodeURIComponent(value)}`
+      );
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+      setCitySuggestions(data);
+    } catch {
+      setCitySuggestions([]);
+    }
+  }
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -77,9 +113,16 @@ function App() {
               City
               <input
                 value={city}
-                onChange={(event) => setCity(event.target.value)}
+                onChange={(event) => handleCityChange(event.target.value)}
                 placeholder="Zagreb"
+                list="city-suggestions"
               />
+
+              <datalist id="city-suggestions">
+                {citySuggestions.map((item) => (
+                  <option key={`${item.lat}-${item.lon}`} value={item.label} />
+                ))}
+              </datalist>
             </label>
 
             <label>

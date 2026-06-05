@@ -45,3 +45,40 @@ def get_weather(city: str, date: str) -> dict:
         "max_temp": max(temps),
         "weather": descriptions,
     }
+
+def search_cities(query: str, limit: int = 5) -> list[dict]:
+    if not API_KEY:
+        raise RuntimeError("Missing OPENWEATHER_API_KEY in .env")
+
+    url = "https://api.openweathermap.org/geo/1.0/direct"
+
+    params = {
+        "q": query,
+        "limit": limit,
+        "appid": API_KEY,
+    }
+
+    response = requests.get(url, params=params, timeout=10)
+    response.raise_for_status()
+
+    data = response.json()
+
+    return [
+        {
+            "name": item.get("name"),
+            "country": item.get("country"),
+            "state": item.get("state"),
+            "lat": item.get("lat"),
+            "lon": item.get("lon"),
+            "label": ", ".join(
+                part for part in [
+                    item.get("name"),
+                    item.get("state"),
+                    item.get("country"),
+                ]
+                if part
+            ),
+        }
+        for item in data
+    ]
+
