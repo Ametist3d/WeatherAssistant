@@ -1,9 +1,12 @@
 services:
   weather-assistant:
-    build: .
+    build:
+      context: .
+      args:
+        VITE_API_URL: ${VITE_API_URL:-}
     container_name: weather-assistant
     ports:
-      - "8000:8000"
+      - "${APP_PORT:-8000}:8000"
     env_file:
       - .env
     restart: unless-stopped

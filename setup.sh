@@ -75,11 +75,29 @@ if [ ! -f ".env" ]; then
     exit 1
   fi
 
+    echo ""
+    echo "Frontend API mode:"
+    echo "1) Single Docker app: frontend and backend use same URL [default]"
+    echo "2) Custom API URL: frontend calls a separate backend URL"
+    echo ""
+
+    read -p "Choose mode [1]: " API_MODE
+
+    case "$API_MODE" in
+    2)
+        read -p "Backend API URL, for example http://123.123.123.123:8000: " VITE_API_URL
+        ;;
+    *)
+        VITE_API_URL=""
+        ;;
+    esac
+
   cat > .env <<EOF
 OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY
 GROQ_API_KEY=$GROQ_API_KEY
 GROQ_MODEL=$GROQ_MODEL
 APP_PORT=$APP_PORT
+VITE_API_URL=$VITE_API_URL
 EOF
 
   chmod 600 .env

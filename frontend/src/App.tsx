@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "";
+
 type WeatherData = {
   city: string;
   date: string;
@@ -13,6 +15,7 @@ type ApiResponse = {
   weather: WeatherData;
   recommendation: string;
 };
+
 
 function App() {
   const [city, setCity] = useState("Zagreb");
@@ -29,7 +32,7 @@ function App() {
     setResult(null);
 
     try {
-      const response = await fetch("http://localhost:8000/api/recommendation", {
+      const response = await fetch(`${API_URL}/api/recommendation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
