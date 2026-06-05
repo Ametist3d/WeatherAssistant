@@ -1,5 +1,5 @@
-from app.weather import get_weather
-from app.llm import get_recommendation
+from backend.weather import get_weather
+from backend.llm import get_recommendation
 
 
 def main():

@@ -1,0 +1,173 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #050505;
+  color: #e5e7eb;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(55, 65, 81, 0.45), transparent 35%),
+    linear-gradient(180deg, #111827 0%, #050505 60%);
+}
+
+.topbar {
+  height: 72px;
+  border-bottom: 1px solid #1f2937;
+  background: rgba(5, 5, 5, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.topbar p {
+  margin: 4px 0 0;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.badge {
+  border: 1px solid #374151;
+  background: #111827;
+  color: #d1d5db;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.main {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.card {
+  width: 100%;
+  max-width: 760px;
+  border: 1px solid #1f2937;
+  background: rgba(10, 10, 10, 0.88);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  border-radius: 18px;
+  padding: 28px;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.card-header p {
+  margin: 8px 0 24px;
+  color: #9ca3af;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 14px;
+  align-items: end;
+}
+
+label {
+  color: #d1d5db;
+  font-size: 13px;
+}
+
+input {
+  width: 100%;
+  margin-top: 8px;
+  background: #030712;
+  border: 1px solid #374151;
+  color: #f9fafb;
+  padding: 12px 14px;
+  border-radius: 10px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #6b7280;
+}
+
+button {
+  background: #e5e7eb;
+  color: #030712;
+  border: 0;
+  padding: 13px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.error {
+  margin-top: 20px;
+  border: 1px solid #7f1d1d;
+  background: rgba(127, 29, 29, 0.25);
+  color: #fecaca;
+  padding: 14px;
+  border-radius: 10px;
+}
+
+.result {
+  margin-top: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.weather-box,
+.recommendation {
+  border: 1px solid #1f2937;
+  background: #030712;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.weather-box h3,
+.recommendation h3 {
+  margin: 0 0 10px;
+}
+
+.weather-box p {
+  color: #d1d5db;
+}
+
+pre {
+  white-space: pre-wrap;
+  font-family: inherit;
+  color: #e5e7eb;
+  line-height: 1.55;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    padding: 0 18px;
+  }
+
+  .main {
+    padding: 18px;
+  }
+}
