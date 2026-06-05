@@ -22,7 +22,16 @@ def get_weather(city: str, date: str) -> dict:
     }
 
     response = requests.get(url, params=params, timeout=10)
-    response.raise_for_status()
+    
+    if response.status_code == 404:
+        raise ValueError(f"No weather info available for '{city}'.")
+
+    if response.status_code == 401:
+        raise RuntimeError("OpenWeather API key is invalid or missing.")
+
+    if response.status_code != 200:
+        raise RuntimeError(f"OpenWeather API error: {response.status_code}")
+
 
     data = response.json()
 

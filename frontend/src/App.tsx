@@ -82,13 +82,20 @@ function App() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get recommendation");
+        const errorData = await response.json().catch(() => null);
+        throw new Error(
+          errorData?.detail || "No weather information available for this request."
+        );
       }
 
       const data = await response.json();
       setResult(data);
     } catch (err) {
-      setError("Something went wrong. Check backend, API keys, city, or date.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No weather information available for this request."
+      );
     } finally {
       setLoading(false);
     }

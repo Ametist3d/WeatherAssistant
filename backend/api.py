@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -47,14 +47,26 @@ def cities(q: str):
 
 @app.post("/api/recommendation")
 def recommendation(request: WeatherRequest):
-    weather = get_weather(request.city, request.date)
-    recommendation_text = get_recommendation(weather, request.note)
+    try:
+        weather = get_weather(request.city, request.date)
+        recommendation_text = get_recommendation(weather, request.note)
 
-    return {
-        "weather": weather,
-        "recommendation": recommendation_text,
-    }
+        return {
+            "weather": weather,
+            "recommendation": recommendation_text,
+        }
 
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+    except RuntimeError as e:
+        raise HTTPException(status_code=502, detail=str(e))
+
+    except Exception:
+        raise HTTPException(
+            status_code=500,
+            detail="Unexpected server error. Please try again later."
+        )
 
 static_dir = Path(__file__).parent / "static"
 
