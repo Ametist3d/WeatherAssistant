@@ -11,7 +11,7 @@ from backend.llm import get_recommendation
 
 app = FastAPI()
 
-
+# Allow CORS for local development with frontend running on a different port
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -47,6 +47,10 @@ def cities(q: str):
 
 @app.post("/api/recommendation")
 def recommendation(request: WeatherRequest):
+    '''
+    Get a personalized weather recommendation based on city, date, and an optional user note.
+    '''
+    
     try:
         weather = get_weather(request.city, request.date)
         recommendation_text = get_recommendation(weather, request.note)

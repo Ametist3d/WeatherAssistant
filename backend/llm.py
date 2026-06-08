@@ -11,6 +11,11 @@ MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 
 
 def get_recommendation(weather: dict,  note: str = "") -> str:
+    '''
+    Get a personalized recommendation based on weather data and an optional user note.
+    Uses the Groq API to generate a response from a language model.
+    '''
+
     if not API_KEY:
         raise RuntimeError("Missing GROQ_API_KEY in .env")
 
@@ -32,7 +37,7 @@ def get_recommendation(weather: dict,  note: str = "") -> str:
 
     Use the user note to personalize the answer when relevant.
     """
-
+    
     response = client.chat.completions.create(
         model=MODEL,
         messages=[

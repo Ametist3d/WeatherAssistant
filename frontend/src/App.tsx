@@ -37,6 +37,10 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [citySuggestions, setCitySuggestions] = useState<CitySuggestion[]>([]);
 
+  
+  /**
+   * Handle city input change, update city state and fetch city suggestions if input length is sufficient.
+   */
   async function handleCityChange(value: string) {
     setCity(value);
 
@@ -61,6 +65,10 @@ function App() {
     }
   }
 
+
+  /**
+   * Handle form submission, send a POST request to the backend with city, date, and note, and update the result or error state based on the response.
+   */
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
